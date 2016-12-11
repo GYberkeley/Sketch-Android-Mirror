@@ -1,0 +1,34 @@
+@import 'sandbox.js';
+
+var doc = context.document; // the current document (MS Document)
+
+log(doc);
+
+var directory = "~/desktop/test.png";
+
+log(directory);
+
+var page = [doc currentPage];
+
+log(page);
+
+var artboards = [page artboards];
+
+log(artboards);
+
+var currentArtboard = [page currentArtboard];
+
+log("currentArtBoard: " + currentArtboard);
+
+var path = context.scriptURL.URLByDeletingLastPathComponent().URLByAppendingPathComponent("test.png").path();
+log(path);
+
+[doc saveArtboardOrSlice:currentArtboard toFile:path];
+log('check if the Artboard was actually saved or not');
+
+var home_folder = "/Users/" + NSUserName() + "/Desktop/test.png";
+new AppSandbox().authorize(home_folder, function(){
+	[doc saveArtboardOrSlice:currentArtboard toFile:directory];
+	log(directory);
+	
+})
